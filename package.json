@@ -10,6 +10,15 @@
   "files": [
     "dist"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/matheusmarnt/scoutify-mcp.git"
+  },
+  "homepage": "https://github.com/matheusmarnt/scoutify-mcp#readme",
+  "bugs": {
+    "url": "https://github.com/matheusmarnt/scoutify-mcp/issues"
+  },
+  "license": "MIT",
   "engines": {
     "node": ">=18"
   },

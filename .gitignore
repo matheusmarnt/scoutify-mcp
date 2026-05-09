@@ -1,3 +1,5 @@
 node_modules/
 dist/
 *.tsbuildinfo
+AGENTS.md
+PROJECT_MEMORY.md
