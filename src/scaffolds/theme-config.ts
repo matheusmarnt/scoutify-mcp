@@ -6,14 +6,22 @@ interface TypeRegistration {
 }
 
 interface ThemeOverrides {
+  dialogPanel?: string;
+  dialogContent?: string;
+  dialogScrim?: string;
   input?: string;
   trigger?: string;
+  triggerMobile?: string;
+  toggleActive?: string;
+  toggleInactive?: string;
 }
 
 interface UiFlags {
   showTypeChips?: boolean;
-  showHintBar?: boolean;
+  showToggleOnlyActive?: boolean;
   showToggleIncludeTrashed?: boolean;
+  showHintBar?: boolean;
+  showIdleHint?: boolean;
 }
 
 interface ThemeConfigOptions {
@@ -29,27 +37,33 @@ export function scaffoldThemeConfig(opts: ThemeConfigOptions): string {
   if (types.length > 0) {
     lines.push(`        Scoutify::types()`);
     for (const t of types) {
-      lines.push(`            ->register(${t.class}::class, '${t.label}', '${t.icon}', Color::${t.color})`);
+      lines.push(`            ->register(${t.class}::class, label: '${t.label}', icon: '${t.icon}', color: '${t.color}')`);
     }
     lines.push(`        ;`);
   }
 
+  const themeKeys: Array<keyof ThemeOverrides> = [
+    'dialogPanel', 'dialogContent', 'dialogScrim',
+    'input', 'trigger', 'triggerMobile',
+    'toggleActive', 'toggleInactive',
+  ];
   const themeLines: string[] = [];
-  if (themeOverrides.input) themeLines.push(`            ->input('${themeOverrides.input}')`);
-  if (themeOverrides.trigger) themeLines.push(`            ->trigger('${themeOverrides.trigger}')`);
+  for (const key of themeKeys) {
+    if (themeOverrides[key]) themeLines.push(`            ->${key}('${themeOverrides[key]}')`);
+  }
   if (themeLines.length > 0) {
     lines.push(`        Scoutify::theme()\n${themeLines.join('\n')}\n        ;`);
   }
 
+  const uiKeys: Array<keyof UiFlags> = [
+    'showTypeChips', 'showToggleOnlyActive', 'showToggleIncludeTrashed',
+    'showHintBar', 'showIdleHint',
+  ];
   const uiLines: string[] = [];
-  if (uiFlags.showTypeChips !== undefined) {
-    uiLines.push(`            ->${uiFlags.showTypeChips ? 'showTypeChips' : 'hideTypeChips'}()`);
-  }
-  if (uiFlags.showHintBar !== undefined) {
-    uiLines.push(`            ->${uiFlags.showHintBar ? 'showHintBar' : 'hideHintBar'}()`);
-  }
-  if (uiFlags.showToggleIncludeTrashed !== undefined) {
-    uiLines.push(`            ->${uiFlags.showToggleIncludeTrashed ? 'showToggleIncludeTrashed' : 'hideToggleIncludeTrashed'}()`);
+  for (const key of uiKeys) {
+    if (uiFlags[key] !== undefined) {
+      uiLines.push(`            ->${ key }(${ uiFlags[key] ? 'true' : 'false' })`);
+    }
   }
   if (uiLines.length > 0) {
     lines.push(`        Scoutify::configureUi(function (\\Matheusmarnt\\Scoutify\\Support\\UiConfig $ui) {\n            $ui\n${uiLines.join('\n')}\n            ;\n        });`);
@@ -58,9 +72,9 @@ export function scaffoldThemeConfig(opts: ThemeConfigOptions): string {
   const body = lines.join('\n\n');
 
   return `use Matheusmarnt\\Scoutify\\Facades\\Scoutify;
-use Matheusmarnt\\Scoutify\\Enums\\Color;
+use Matheusmarnt\\Scoutify\\Support\\UiConfig;
 
-// In your ScoutifyServiceProvider::boot() or AppServiceProvider::boot():
+// In your AppServiceProvider::boot():
 
 public function boot(): void
 {

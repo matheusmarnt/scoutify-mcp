@@ -109,16 +109,24 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
           themeOverrides: {
             type: 'object',
             properties: {
+              dialogPanel: { type: 'string', description: 'Outer positioning wrapper (max-width, no background). Default: relative w-full md:max-w-2xl' },
+              dialogContent: { type: 'string', description: 'Visible card (background, shadow, border-radius). Use this to change modal background color.' },
+              dialogScrim: { type: 'string', description: 'Backdrop overlay behind the modal.' },
               input: { type: 'string' },
               trigger: { type: 'string' },
+              triggerMobile: { type: 'string' },
+              toggleActive: { type: 'string' },
+              toggleInactive: { type: 'string' },
             },
           },
           uiFlags: {
             type: 'object',
             properties: {
               showTypeChips: { type: 'boolean' },
-              showHintBar: { type: 'boolean' },
+              showToggleOnlyActive: { type: 'boolean' },
               showToggleIncludeTrashed: { type: 'boolean' },
+              showHintBar: { type: 'boolean' },
+              showIdleHint: { type: 'boolean' },
             },
           },
         },
