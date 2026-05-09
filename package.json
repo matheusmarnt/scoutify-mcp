@@ -5,11 +5,10 @@
   "type": "module",
   "main": "./dist/server.js",
   "bin": {
-    "scoutify-mcp": "./bin/scoutify-mcp.js"
+    "scoutify-mcp": "./dist/server.js"
   },
   "files": [
-    "dist",
-    "bin"
+    "dist"
   ],
   "engines": {
     "node": ">=18"
