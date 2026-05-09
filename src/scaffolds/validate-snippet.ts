@@ -94,6 +94,13 @@ const RULES: Array<{
     message: 'Alpine .prevent modifier fires before expression evaluates, making conditional guard ineffective.',
     fixHint: 'Remove .prevent; call $event.preventDefault() inside the if body.',
   },
+  {
+    id: 'dialog_panel_with_background',
+    severity: 'warning',
+    pattern: /->dialogPanel\s*\(\s*['"][^'"]*\bbg-\w/g,
+    message: 'dialogPanel() is the outer positioning wrapper and has no visible background. Background classes on dialogPanel() have no effect.',
+    fixHint: 'Move background classes to dialogContent() which controls the visible card (background, shadow, border-radius).',
+  },
 ];
 
 function lineOf(code: string, index: number): number {
