@@ -5,7 +5,7 @@
   "type": "module",
   "main": "./dist/server.js",
   "bin": {
-    "scoutify-mcp": "./bin/scoutify-mcp"
+    "scoutify-mcp": "./bin/scoutify-mcp.js"
   },
   "files": [
     "dist",
