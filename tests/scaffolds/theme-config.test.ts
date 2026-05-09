@@ -7,7 +7,7 @@ describe('scaffoldThemeConfig', () => {
       types: [{ class: 'Post', label: 'Post', icon: 'heroicon-o-document', color: 'Blue' }],
     });
     expect(code).toContain('Scoutify::types()');
-    expect(code).toContain("->register(Post::class, 'Post', 'heroicon-o-document', Color::Blue)");
+    expect(code).toContain("->register(Post::class, label: 'Post', icon: 'heroicon-o-document', color: 'Blue')");
   });
 
   it('never contains legacy config key icon_prefix as array key', () => {
@@ -29,7 +29,7 @@ describe('scaffoldThemeConfig', () => {
   it('generates configureUi for ui flags', () => {
     const code = scaffoldThemeConfig({ uiFlags: { showTypeChips: true, showHintBar: false } });
     expect(code).toContain('Scoutify::configureUi(');
-    expect(code).toContain('->showTypeChips()');
-    expect(code).toContain('->hideHintBar()');
+    expect(code).toContain('->showTypeChips(true)');
+    expect(code).toContain('->showHintBar(false)');
   });
 });
